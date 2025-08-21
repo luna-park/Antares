@@ -5,13 +5,12 @@ before_install:
 install:
   - ./gradlew :lib:assembleRelease
   - ./gradlew :lib:bundleReleaseAar
-after_script:
-  # Извлекаем версию из build.gradle
+  # Переносим все в install блок
   - VERSION=$(grep 'versionName' lib/build.gradle | sed "s/.*versionName \"\(.*\)\".*/\1/")
   - echo "Detected version: $VERSION"
   - mkdir -p ~/.m2/repository/com/github/luna-park/antares/$VERSION/
   - cp lib/build/outputs/aar/lib-release.aar ~/.m2/repository/com/github/luna-park/antares/$VERSION/antares-$VERSION.aar
-  # Динамический POM файл
+  # Создаем POM файл
   - cat > ~/.m2/repository/com/github/luna-park/antares/$VERSION/antares-$VERSION.pom << EOF
   <?xml version="1.0" encoding="UTF-8"?>
   <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
