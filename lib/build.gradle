@@ -60,12 +60,26 @@ dependencies {
 //    }
 //}
 
+//publishing {
+//    publications {
+//        release(MavenPublication) {
+//            groupId = 'com.github.luna-park'
+//            artifactId = 'antares'
+//            version = '1.0.1'
+//
+//            afterEvaluate {
+//                from components.release
+//            }
+//        }
+//    }
+//}
+
 publishing {
     publications {
         release(MavenPublication) {
-            groupId = 'com.github.luna-park'
-            artifactId = 'antares'
-            version = '1.0.1'
+            groupId = 'io.jitpack'
+            artifactId = 'library'
+            version = '1.0'
 
             afterEvaluate {
                 from components.release
