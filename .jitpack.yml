@@ -4,6 +4,30 @@ before_install:
   - chmod +x gradlew
 install:
   - ./gradlew :lib:assembleRelease
-  - ./gradlew :lib:generatePomFileForReleasePublication
-jitpack:
-  install: ./gradlew :lib:publishToMavenLocal
+  - ./gradlew :lib:bundleReleaseAar
+  # Создаем POM файл вручную
+  - mkdir -p ~/.m2/repository/com/github/luna-park/antares/1.0.1/
+  - cat > ~/.m2/repository/com/github/luna-park/antares/1.0.1/antares-1.0.1.pom << 'EOF'
+  <?xml version="1.0" encoding="UTF-8"?>
+  <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.luna-park</groupId>
+  <artifactId>antares</artifactId>
+  <version>1.0.1</version>
+  <packaging>aar</packaging>
+  <dependencies>
+  <dependency>
+  <groupId>androidx.activity</groupId>
+  <artifactId>activity</artifactId>
+  <version>1.10.1</version>
+  <scope>compile</scope>
+  </dependency>
+  <dependency>
+  <groupId>com.google.code.gson</groupId>
+  <artifactId>gson</artifactId>
+  <version>2.11.0</version>
+  <scope>compile</scope>
+  </dependency>
+  </dependencies>
+  </project>
+  EOF
