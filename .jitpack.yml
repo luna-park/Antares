@@ -4,4 +4,6 @@ before_install:
   - chmod +x gradlew
 install:
   - ./gradlew :lib:assembleRelease
-  - ./gradlew :lib:bundleReleaseAar
+  - ./gradlew :lib:generatePomFileForReleasePublication
+jitpack:
+  install: ./gradlew :lib:publishToMavenLocal
