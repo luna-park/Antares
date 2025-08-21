@@ -1,6 +1,8 @@
 Network lib
 
-### Installation
+# Installation
+
+### Method 1
 
 settings.gradle:
 ```groovy
@@ -18,5 +20,16 @@ app\build.gradle:
 ```groovy
 dependencies {
     implementation "com.github.luna-park:antares:1.0.3"
+}
+```
+
+---
+
+### Method 2
+
+Copy .aar from "Releases"-section to app\libs and add to app\build.gradle:
+```groovy
+dependencies {
+    implementation fileTree(include: ["*.jar", "*.aar"], dir: 'libs')
 }
 ```
