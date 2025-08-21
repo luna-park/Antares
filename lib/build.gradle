@@ -34,11 +34,11 @@ android {
 //    }
 }
 
-android.libraryVariants.configureEach { variant ->
-    variant.outputs.all {
-        outputFileName = "antares_${android.defaultConfig.versionName}.aar"
-    }
-}
+//android.libraryVariants.configureEach { variant ->
+//    variant.outputs.all {
+//        outputFileName = "antares_${android.defaultConfig.versionName}.aar"
+//    }
+//}
 
 dependencies {
     implementation("androidx.activity:activity:1.10.1")
