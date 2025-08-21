@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.library'
-//    id 'maven-publish' // для публикации
+    id 'maven-publish' // для публикации
 }
 
 android {
@@ -27,12 +27,12 @@ android {
     }
 
     // Для публикации с исходным кодом
-//    publishing {
-//        singleVariant("release") {
-//            withSourcesJar()
-//            withJavadocJar()
-//        }
-//    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 //android.libraryVariants.configureEach { variant ->
@@ -59,3 +59,17 @@ dependencies {
 //        }
 //    }
 //}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.github.luna-park'
+            artifactId = 'antares'
+            version = '1.0.1'
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}
