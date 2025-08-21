@@ -1,4 +1,4 @@
-Network lib
+Android network library
 
 # Installation
 
