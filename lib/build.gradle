@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish' // для публикации
 }
 
 android {
@@ -8,7 +9,7 @@ android {
 
     defaultConfig {
         minSdk 26
-        versionName "1.0.1"
+        versionName "1.0.0"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -24,6 +25,13 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
+    // Для публикации с исходным кодом
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 android.libraryVariants.configureEach { variant ->
@@ -35,4 +43,18 @@ android.libraryVariants.configureEach { variant ->
 dependencies {
     implementation("androidx.activity:activity:1.10.1")
     implementation("com.google.code.gson:gson:2.11.0")
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.github.luna-park'
+            artifactId = 'antares'
+            version = '1.0.0'
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
 }
