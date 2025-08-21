@@ -1,14 +1,15 @@
 plugins {
     id 'com.android.library'
-    id 'maven-publish' // для публикации
+    id 'maven-publish'
 }
 
 android {
-    namespace 'org.lunapark.antares'
+    namespace "org.lunapark.antares"
     compileSdk 36
 
     defaultConfig {
-        minSdk 26
+        minSdk 23
+        targetSdk 36
         versionCode 1
         versionName "1.0.1"
         consumerProguardFiles "consumer-rules.pro"
@@ -17,86 +18,26 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    // Для публикации с исходным кодом
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
 }
-
-//android.libraryVariants.configureEach { variant ->
-//    variant.outputs.all {
-//        outputFileName = "antares_${android.defaultConfig.versionName}.aar"
-//    }
-//}
-
-dependencies {
-    implementation("androidx.activity:activity:1.10.1")
-    implementation("com.google.code.gson:gson:2.11.0")
-}
-
-//publishing {
-//    publications {
-//        release(MavenPublication) {
-//            groupId = 'com.github.luna-park'
-//            artifactId = 'antares'
-//            version = '${android.defaultConfig.versionName}'
-//
-//            afterEvaluate {
-//                from components.release
-//            }
-//        }
-//    }
-//}
-//
-//publishing {
-//    publications {
-//        release(MavenPublication) {
-//            groupId = 'com.github.luna-park'
-//            artifactId = 'antares'
-//            version = '1.0.1'
-//
-//            afterEvaluate {
-//                from components.release
-//            }
-//        }
-//    }
-//}
 
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'org.luna-park'
-                artifactId = 'antares'
-                version = '1.0.1'
+
+                groupId = "com.github.luna-park"
+                artifactId = "antares"
+                version = android.defaultConfig.versionName
             }
         }
     }
 }
 
-//publishing {
-//    publications {
-//        release(MavenPublication) {
-//            groupId = 'io.jitpack'
-//            artifactId = 'library'
-//            version = '1.0'
-//
-//            afterEvaluate {
-//                from components.release
-//            }
-//        }
-//    }
-//}
+// Костыль для Gradle 8, чтобы не было ошибки generateMetadataFileForReleasePublication
+tasks.withType(GenerateModuleMetadata).configureEach {
+    dependsOn tasks.named("bundleReleaseAar")
+}
