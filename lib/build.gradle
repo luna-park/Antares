@@ -26,12 +26,12 @@ android {
     }
 
     // Для публикации с исходным кодом
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
+//    publishing {
+//        singleVariant("release") {
+//            withSourcesJar()
+//            withJavadocJar()
+//        }
+//    }
 }
 
 android.libraryVariants.configureEach { variant ->
