@@ -5,12 +5,11 @@ plugins {
 
 android {
     namespace "org.lunapark.antares"
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         minSdk 23
-        //noinspection OldTargetApi
-        targetSdk 35
+        targetSdk 36
         versionName "1.0.1"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -40,53 +39,9 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-
-                groupId = "com.github.luna-park"
-                artifactId = "antares"
-                version = android.defaultConfig.versionName
-
-                pom {
-                    name = 'Antares'
-                    description = 'Antares Android Library'
-
-                    withXml {
-                        def root = asNode()
-
-                        // Создаем узел dependencies если его еще нет
-                        def dependenciesNode = root.dependencies
-                        if (dependenciesNode.isEmpty()) {
-                            dependenciesNode = root.appendNode('dependencies')
-                        } else {
-                            dependenciesNode = dependenciesNode[0]
-                        }
-
-                        // Добавляем implementation зависимости
-                        project.configurations.implementation.allDependencies.each { dep ->
-                            if (dep.group != null && dep.name != null && dep.version != null && dep.name != 'unspecified') {
-                                def dependencyNode = dependenciesNode.appendNode('dependency')
-                                dependencyNode.appendNode('groupId', dep.group)
-                                dependencyNode.appendNode('artifactId', dep.name)
-                                dependencyNode.appendNode('version', dep.version)
-                                dependencyNode.appendNode('scope', 'runtime')
-                            }
-                        }
-
-                        // Добавляем api зависимости если есть
-                        try {
-                            project.configurations.api.allDependencies.each { dep ->
-                                if (dep.group != null && dep.name != null && dep.version != null && dep.name != 'unspecified') {
-                                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                                    dependencyNode.appendNode('groupId', dep.group)
-                                    dependencyNode.appendNode('artifactId', dep.name)
-                                    dependencyNode.appendNode('version', dep.version)
-                                    dependencyNode.appendNode('scope', 'compile')
-                                }
-                            }
-                        } catch (Exception ignored) {
-                            // api конфигурация может отсутствовать
-                        }
-                    }
-                }
+                groupId = 'com.github.luna-park'
+                artifactId = 'antares'
+                version = '1.0.1'
             }
         }
     }
