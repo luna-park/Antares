@@ -31,5 +31,6 @@ Copy .aar from "Releases"-section to app\libs and add to app\build.gradle:
 ```groovy
 dependencies {
     implementation fileTree(include: ["*.jar", "*.aar"], dir: 'libs')
+    implementation("com.google.code.gson:gson:2.11.0")
 }
 ```
