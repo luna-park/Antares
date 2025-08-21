@@ -10,12 +10,20 @@ import org.lunapark.anteres.network.RestClient;
 import org.lunapark.anteres.network.json.DefaultJsonHandler;
 import org.lunapark.anteres.network.json.GenericListJsonHandler;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class RestApi extends RestClient {
 
     public RestApi(String baseUrl) {
         super(baseUrl);
+    }
+
+    private HashMap<String, String> getHeader() {
+        HashMap<String, String> header = new HashMap<>();
+
+        header.put("Authorization", "Bearer 0123456789ABCDEF");
+        return header;
     }
 
     protected List<Item> getRequest() throws Exception {
@@ -25,12 +33,11 @@ public class RestApi extends RestClient {
                         .build(),
                 HttpMethod.GET,
                 HttpSecurity.SECURED,
-//                new DefaultJsonHandler<>(gson, TestModel.class)
         new GenericListJsonHandler<>(gson, "items", Item.class)
         );
     }
 
-    protected TestModel getRequest(String param) throws Exception {
+    protected TestModel getRequestWithParamsAndHeader(String param) throws Exception {
         return networkCore.getJsonResponse(
                 new Uri.Builder()
                         .path("echo/get/json")
@@ -38,6 +45,7 @@ public class RestApi extends RestClient {
                         .build(),
                 HttpMethod.GET,
                 HttpSecurity.SECURED,
+                getHeader(),
                 new DefaultJsonHandler<>(gson, TestModel.class)
         );
     }

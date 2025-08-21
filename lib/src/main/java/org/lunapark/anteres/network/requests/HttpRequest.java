@@ -1,15 +1,13 @@
 package org.lunapark.anteres.network.requests;
 
-
-import org.lunapark.anteres.network.HttpHeader;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.HashMap;
 
 public abstract class HttpRequest {
     private String method;
     private String url;
-    private HttpHeader httpHeader;
+    private HashMap<String, String> httpHeader;
 
     public String getMethod() {
         return method;
@@ -31,11 +29,11 @@ public abstract class HttpRequest {
 
     public abstract void prepareConnection(HttpURLConnection connection) throws IOException;
 
-    public HttpHeader getHeader() {
+    public HashMap<String, String> getHeader() {
         return httpHeader;
     }
 
-    public void setHeader(HttpHeader httpHeader) {
+    public void setHeader(HashMap<String, String> httpHeader) {
         this.httpHeader = httpHeader;
     }
 }

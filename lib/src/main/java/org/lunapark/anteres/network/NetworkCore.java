@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Set;
 
 public class NetworkCore {
 
@@ -68,7 +70,7 @@ public class NetworkCore {
         return getJsonResponse(uri, null, httpMethod, httpSecurity, null, jsonHandler);
     }
 
-    public  <T> T getJsonResponse(
+    public <T> T getJsonResponse(
             Uri uri,
             String json,
             @NonNull HttpMethod httpMethod,
@@ -82,7 +84,7 @@ public class NetworkCore {
             Uri uri,
             @NonNull HttpMethod httpMethod,
             @NonNull HttpSecurity httpSecurity,
-            HttpHeader httpHeader,
+            HashMap<String, String> httpHeader,
             JsonHandler<T> jsonHandler)
             throws Exception {
         return getJsonResponse(uri, null, httpMethod, httpSecurity, httpHeader, jsonHandler);
@@ -93,7 +95,7 @@ public class NetworkCore {
             String json,
             @NonNull HttpMethod httpMethod,
             @NonNull HttpSecurity httpSecurity,
-            HttpHeader httpHeader,
+            HashMap<String, String> httpHeader,
             JsonHandler<T> jsonHandler)
             throws Exception {
 
@@ -139,36 +141,13 @@ public class NetworkCore {
             if (timeout != 0)
                 connection.setConnectTimeout(timeout);
 
-            HttpHeader httpHeader = request.getHeader();
+            HashMap<String, String> httpHeader = request.getHeader();
             if (httpHeader != null) {
 
-//                AuthTokenModel authTokenModel = httpHeader.getAuthTokenModel();
-//
-//                if (authTokenModel != null) {
-//                    String authParam = null;
-//                    if (authTokenModel.getTokenType() != null && authTokenModel.getAccessToken() != null) {
-//                        authParam = String.format("%s %s", authTokenModel.getTokenType(), authTokenModel.getAccessToken());
-//                    } else if (authTokenModel.getAccessToken() != null) {
-//                        authParam = authTokenModel.getAccessToken();
-//                    }
-//                    if (authParam != null)
-//                        connection.setRequestProperty("Authorization", authParam);
-//                }
-
-                if (httpHeader.getToken() != null)
-                    connection.setRequestProperty("Authorization", String.format("Bearer %s", httpHeader.getToken()));
-
-//                if (httpHeader.getUserId() != null)
-//                    connection.setRequestProperty("User-id", httpHeader.getUserId());
-//
-//                if (httpHeader.getDeviceId() != null)
-//                    connection.setRequestProperty("Device-id", httpHeader.getDeviceId());
-//
-//                if (httpHeader.getxRequestId() != null)
-//                    connection.setRequestProperty("X-Request-Id", httpHeader.getxRequestId());
-//
-//                if (httpHeader.getxOperationId() != null)
-//                    connection.setRequestProperty("X-Operation-Id", httpHeader.getxOperationId());
+                Set<String> keys = httpHeader.keySet();
+                for (String s : keys) {
+                    connection.setRequestProperty(s, httpHeader.get(s));
+                }
 
                 Log.d("Request header: %s", connection.getRequestProperties().toString());
             }

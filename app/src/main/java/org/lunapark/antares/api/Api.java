@@ -47,7 +47,7 @@ public class Api extends RestApi {
         Command<TestModel> command = new Command<>(userView, callback) {
             @Override
             public TestModel request() throws Exception {
-                return getRequest(param);
+                return getRequestWithParamsAndHeader(param);
             }
         };
         executorService.execute(command);
